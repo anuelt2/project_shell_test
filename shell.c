@@ -21,6 +21,8 @@ int main(int argc, char *argv[], char **envp)
 
 	full_path = malloc(sizeof(char) * 4096);
 	full_path[4095] = '\0';
+	if (!full_path)
+		exit(EXIT_FAILURE);
 	while (1)
 	{
 		display_prompt();
@@ -34,7 +36,6 @@ int main(int argc, char *argv[], char **envp)
 		else
 		{
 			printf("full_path passed to main: %s\n", full_path);
-			execute(full_path, args, envp);
 		}
 	}
 	free(input);

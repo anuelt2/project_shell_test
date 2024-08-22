@@ -7,7 +7,7 @@
 */
 int _path_size(char **envp)
 {
-	int i = 0, j = 4;
+	int i = 0, j = 5;
 
 	while (envp[i] != NULL)
 	{
@@ -32,7 +32,7 @@ int _path_size(char **envp)
 char *get_env_path(char **envp, int size)
 {
 	char *path;
-	int i = 0, j = 4, k = 0;
+	int i = 0, j = 5, k = 0;
 
 	path = malloc(sizeof(char) * (size + 1));
 	path[size] = '\0';
@@ -117,6 +117,7 @@ char *find_command(char *pathname, char **envp)
 	while (dir != NULL)
 	{
 		full_path = _concatenate(dir, pathname);
+		printf("Path checked: %s\n", full_path);
 		if (is_executable(full_path) != 0)
 		{
 			printf("Is path executable?: Yes!\n");
