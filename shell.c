@@ -26,13 +26,13 @@ int main(int argc, char *argv[], char **envp)
 		display_prompt();
 		str = get_input(input, sizeof(input));
 		args = string_tok(str, delim);
+		full_path = find_command(args[0], envp);
 		if (is_executable(args[0]) != 0)
 		{
-			execute(full_path, args, envp);
+			execute(args[0], args, envp);
 		}
 		else
 		{
-			full_path = find_command(args[0], envp);
 			printf("full_path passed to main: %s\n", full_path);
 			execute(full_path, args, envp);
 		}
