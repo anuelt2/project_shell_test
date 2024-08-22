@@ -127,6 +127,5 @@ char *find_command(char *pathname, char **envp)
 	}
 	free(env_path);
 	free(full_path);
-	free(env_path);
 	return ('\0');
 }
