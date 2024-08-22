@@ -61,7 +61,7 @@ void execute(char *pathname, char *args[], char **envp)
 	pid_t child_pid;
 	int status;
 
-	if (pathname)
+	if (is_executable(pathname) != 0)
 		child_pid = fork();
 
 	if (child_pid == -1)
