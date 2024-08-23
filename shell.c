@@ -25,21 +25,27 @@ int main(int argc, char *argv[], char **envp)
 		exit(EXIT_FAILURE);
 	while (1)
 	{
-		display_prompt();
+		if (isatty(STDIN_FILENO))
+		{
+			display_prompt();
+		}
 		str = get_input(input, sizeof(input));
 		args = string_tok(str, delim);
 		full_path = find_command(args[0], envp);
 		if (is_executable(args[0]) != 0)
 		{
 			execute(args[0], args, envp);
+			free(args);
+			free(str);
 		}
 		else
 		{
-			printf("full_path passed to main: %s\n", full_path);
+			execute(full_path, args, envp);
+			free(full_path);
+			free(args);
+			free(str);
 		}
 	}
-	free(input);
-	free(full_path);
 
 	return (0);
 }

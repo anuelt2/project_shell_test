@@ -117,10 +117,8 @@ char *find_command(char *pathname, char **envp)
 	while (dir != NULL)
 	{
 		full_path = _concatenate(dir, pathname);
-		printf("Path checked: %s\n", full_path);
 		if (is_executable(full_path) != 0)
 		{
-			printf("Is path executable?: Yes!\n");
 			return (full_path);
 		}
 		dir = strtok(NULL, ":");

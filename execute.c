@@ -35,6 +35,7 @@ char **string_tok(char *str, char *delim)
 			*args = realloc(*args, sizeof(char *) * array_size);
 			if (*args == NULL)
 			{
+				free(args);
 				perror("Realloc Error");
 				exit(EXIT_FAILURE);
 			}
@@ -60,7 +61,12 @@ void execute(char *pathname, char *args[], char **envp)
 {
 	pid_t child_pid;
 	int status;
+	int e_status = 0;
 
+	if (strcmp(args[0], "exit") == 0)
+	{
+		exit(e_status);
+	}
 	if (is_executable(pathname) != 0)
 		child_pid = fork();
 
@@ -73,7 +79,7 @@ void execute(char *pathname, char *args[], char **envp)
 	{
 		if ((execve(pathname, args, envp)) == -1)
 		{
-			perror("Execute Error");
+			perror("./shell");
 			exit(EXIT_FAILURE);
 		}
 	}
