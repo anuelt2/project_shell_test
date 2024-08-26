@@ -44,5 +44,6 @@ char **copy_environ(void);
 extern char **environ;
 void get_env(void);
 int set_env(char *var, char *val, int overwrite);
+int unset_env(char *var);
 
 #endif

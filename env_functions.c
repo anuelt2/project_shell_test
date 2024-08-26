@@ -38,7 +38,8 @@ int set_env(char *var, char *val, int overwrite)
 	var_len = _strlen(var);
 	for (i = 0; environ_copy[i] != NULL; i++)
 	{
-		if (_strncmp(environ_copy[i], var, var_len) == 0 && environ_copy[i][var_len] == '=')
+		if (_strncmp(environ_copy[i], var, var_len) == 0 &&
+			environ_copy[i][var_len] == '=')
 		{
 			if (overwrite == 0)
 			{
@@ -62,6 +63,41 @@ int set_env(char *var, char *val, int overwrite)
 		environ_copy[environ_copy_size] = new_var;
 		environ_copy[environ_copy_size + 1] = NULL;
 		environ_copy_size++;
+	}
+	environ = environ_copy;
+
+	return (0);
+}
+
+/**
+* unset_env - unset an environment variable
+* @var: variable to delete
+* Return: 0 (success), -1 (failure)
+*/
+int unset_env(char *var)
+{
+	char **environ_copy = copy_environ();
+	char *temp;
+	int i, var_len, environ_copy_size = get_env_size(environ_copy);
+
+	if (!var && _strcon(var, '=') != 0)
+		return (-1);
+	var_len = _strlen(var);
+	for (i = 0; environ_copy[i] != NULL; i++)
+	{
+		if (_strncmp(environ_copy[i], var, var_len) == 0 &&
+			environ_copy[i][var_len] == '=')
+		{
+			break;
+		}
+	}
+
+	while (i <= environ_copy_size)
+	{
+		temp = environ_copy[i + 1];
+		environ_copy[i] = temp;
+		environ_copy_size--;
+		i++;
 	}
 	environ = environ_copy;
 
