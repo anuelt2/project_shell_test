@@ -35,7 +35,9 @@ int is_executable(char *full_path);
 
 /* env_utils.c */
 int env_size(void);
+int get_env_size(char **env);
 int env_var_value_len(char **envp, int index);
+char **copy_environ(void);
 
 
 /* env_functions */

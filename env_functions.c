@@ -1,7 +1,5 @@
 #include "shell.h"
 
-static char **environ_copy = '\0';
-static int environ_size;
 /**
 * get_env - print env variables
 * Return: void
@@ -29,6 +27,43 @@ void get_env(void)
 */
 int set_env(char *var, char *val, int overwrite)
 {
+	char **environ_copy = copy_environ(), **temp;
+	int i, var_len;
+	char *new_var = _concat(var, val);
+	int environ_copy_size = get_env_size(environ_copy);
+
+	if (!var && _strcon(var, '=') != 0)
+		return (-1);
+
+	var_len = _strlen(var);
+	for (i = 0; environ_copy[i] != NULL; i++)
+	{
+		if (_strncmp(environ_copy[i], var, var_len) == 0 && environ_copy[i][var_len] == '=')
+		{
+			if (overwrite == 0)
+			{
+				return (0);
+			}
+			printf("%d\n", i);
+			break;
+		}
+	}
+
+	if (environ_copy[i] != NULL)
+	{
+		environ_copy[i] = new_var;
+	}
+	else
+	{
+		temp = realloc(environ_copy, sizeof(char *) * (environ_copy_size + 2));
+		if (!temp)
+			return (-1);
+		environ_copy = temp;
+		environ_copy[environ_copy_size] = new_var;
+		environ_copy[environ_copy_size + 1] = NULL;
+		environ_copy_size++;
+	}
+	environ = environ_copy;
 
 	return (0);
 }

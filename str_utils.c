@@ -112,7 +112,7 @@ int _strcon(char *str, char c)
 {
 	int i = 0, x;
 
-	while (str[i] != '\0')
+	while (str[i++] != '\0')
 	{
 		if (str[i] == c)
 		{
