@@ -53,7 +53,7 @@ char **string_tok(char *str, char *delim)
  * execute - executes commands
  * @pathname: Program to execute
  * @args: Array of commandline arguments
- * @envp: Pointer to array of environment variables
+ * @envp: Pointer to array of environment list
  *
  * Return: Void
  */
@@ -63,9 +63,17 @@ void execute(char *pathname, char *args[], char **envp)
 	int status;
 	int e_status = 0;
 
-	if (strcmp(args[0], "exit") == 0)
+	if (_strcmp(args[0], "exit") == 0)
 	{
 		exit(e_status);
+	}
+	else if (_strcmp(args[0], "env") == 0)
+	{
+		get_env();
+	}
+	else if (_strcmp(args[0], "setenv") == 0)
+	{
+		set_env(args[1], args[2], 1);
 	}
 	if (is_executable(pathname) != 0)
 		child_pid = fork();

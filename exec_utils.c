@@ -25,7 +25,7 @@ int _path_size(char **envp)
 
 /**
 * get_env_path - get the env path
-* @envp: environment variable
+* @envp: environment list
 * @size: size of environment path variable
 * Return: pointer to path variable
 */
@@ -95,7 +95,7 @@ int is_executable(char *full_path)
 /**
 * find_command - find the command in file path
 * @pathname: the command to search for
-* @envp: environment variable
+* @envp: environment list
 * Return: path to command
 */
 char *find_command(char *pathname, char **envp)

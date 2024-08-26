@@ -4,14 +4,14 @@
  * main - Shell program entry point
  * @argc: Number of commandline arguments
  * @argv: Pointer to array of commandline arguments
- * @envp: Pointer to array of environment variables
+ * @envp: Pointer to array of environment list
  *
  * Return: Always 0 (Success)
  */
 
 int main(int argc, char *argv[], char **envp)
 {
-	char input[128];
+	char input[1024];
 	char *delim = DELIM;
 	char *str;
 	char *full_path;
