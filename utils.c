@@ -93,17 +93,18 @@ int is_executable(char *full_path)
 }
 
 /**
-* find_command - find the command in file path
-* @pathname: the command to search for
-* @envp: environment list
-* Return: path to command
+* find_ext_file - Find external command file
+* @pathname: The command to search for
+* @envp: Environment variable
+* @cmd_count: Count of commands entered in each shell session
+*
+* Return: Path to command
 */
-char *find_command(char *pathname, char **envp)
+
+char *find_ext_file(char *pathname, char **envp, int cmd_count)
 {
-	char *env_path;
-	char *dir;
+	char *env_path, *dir, *full_path;
 	int path_size;
-	char *full_path;
 
 	path_size = _path_size(envp);
 	full_path = malloc(sizeof(char) * 4096);
@@ -112,18 +113,31 @@ char *find_command(char *pathname, char **envp)
 	env_path[path_size] = '\0';
 	env_path = get_env_path(envp, path_size);
 	if (!env_path)
+	{
+		perror("Envpath error");
 		exit(EXIT_FAILURE);
+	}
 	dir = strtok(env_path, ":");
 	while (dir != NULL)
 	{
-		full_path = _concatenate(dir, pathname);
-		if (is_executable(full_path) != 0)
+		if (pathname[0] == '/')
 		{
+			full_path = pathname;
+		}
+		else
+		{
+			full_path = _concatenate(dir, pathname);
+		}
+		if (access(full_path, F_OK) == 0)
+		{
+			free(env_path);
 			return (full_path);
 		}
 		dir = strtok(NULL, ":");
 	}
 	free(env_path);
-	free(full_path);
+	if (pathname[0] != '/')
+		free(full_path);
+	fprintf(stderr, "simple_shell: %d: %s: not found\n", cmd_count, pathname);
 	return ('\0');
 }

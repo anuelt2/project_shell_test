@@ -4,44 +4,62 @@
  * main - Shell program entry point
  * @argc: Number of commandline arguments
  * @argv: Pointer to array of commandline arguments
- * @envp: Pointer to array of environment list
+ * @envp: Pointer to array of environment variables
  *
  * Return: Always 0 (Success)
  */
 
-int main(int argc, char *argv[], char **envp)
+int main(int argc, char *argv[], char *envp[])
 {
-	char input[1024];
+	char input[128];
 	char *delim = DELIM;
 	char *str;
-	char *full_path;
+	char *pathname;
 	char **args;
+	int cmd_count;
+	int exec;
+
 	(void)argc;
 	(void)argv;
+	cmd_count = 0;
 
-	full_path = malloc(sizeof(char) * 4096);
-	full_path[4095] = '\0';
-	if (!full_path)
-		exit(EXIT_FAILURE);
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
 		{
 			display_prompt();
+			fflush(stdout);
 		}
 		str = get_input(input, sizeof(input));
+		cmd_count++;
 		args = string_tok(str, delim);
-		full_path = find_command(args[0], envp);
-		if (is_executable(args[0]) != 0)
+		pathname = args[0];
+		if (args[0] == NULL)
 		{
-			execute(args[0], args, envp);
-			free(args);
 			free(str);
+			free(args);
+			continue;
+		}
+		if (_strcmp(args[0], "env") == 0)
+		{
+			get_env();
+		}
+		else if (_strcmp(args[0], "setenv") == 0)
+		{
+			set_env(args[1], args[2], 1);
+		}
+		else if (_strcmp(args[0], "unsetenv") == 0)
+		{
+			unset_env(args[1]);
 		}
 		else
 		{
-			execute(full_path, args, envp);
-			free(full_path);
+			exec = exec_builtin(args, envp);
+			if (exec == 1)
+			{
+				continue;
+			}
+			exec_external(pathname, args, envp, cmd_count);
 			free(args);
 			free(str);
 		}
