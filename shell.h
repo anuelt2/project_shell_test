@@ -56,6 +56,7 @@ int is_executable(char *full_path);
 int env_size(void);
 int get_env_size(char **env);
 char **copy_environ(void);
+int env_func_caller(char **args);
 
 
 /* env_functions */

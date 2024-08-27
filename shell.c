@@ -40,19 +40,7 @@ int main(int argc, char *argv[], char *envp[])
 			free(args);
 			continue;
 		}
-		if (_strcmp(args[0], "env") == 0)
-		{
-			get_env();
-		}
-		else if (_strcmp(args[0], "setenv") == 0)
-		{
-			set_env(args[1], args[2], 1);
-		}
-		else if (_strcmp(args[0], "unsetenv") == 0)
-		{
-			unset_env(args[1]);
-		}
-		else
+		if (env_func_caller(args) != 0)
 		{
 			exec = exec_builtin(args, envp);
 			if (exec == 1)
