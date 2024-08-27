@@ -1,10 +1,12 @@
 #include "shell.h"
 
 /**
-* _path_size - get envp path size
-* @envp: envppironment variable
-* Return: size of path
+* _path_size - Get envp path size
+* @envp: Environment variable
+*
+* Return: Size of path
 */
+
 int _path_size(char **envp)
 {
 	int i = 0, j = 5;
@@ -24,11 +26,13 @@ int _path_size(char **envp)
 }
 
 /**
-* get_env_path - get the env path
-* @envp: environment list
-* @size: size of environment path variable
-* Return: pointer to path variable
+* get_env_path - Get the env path
+* @envp: Environment variable
+* @size: Size of environment path variable
+*
+* Return: Pointer to path variable
 */
+
 char *get_env_path(char **envp, int size)
 {
 	char *path;
@@ -52,10 +56,12 @@ char *get_env_path(char **envp, int size)
 
 /**
 * _concatenate - Concatenate strings
-* @dir: executable dir
-* @pathname: command name
-* Return: full path to command path
+* @dir: Executable directory
+* @pathname: Command name
+*
+* Return: Full path to command path
 */
+
 char *_concatenate(char *dir, char *pathname)
 {
 	char *full_path;
@@ -64,7 +70,10 @@ char *_concatenate(char *dir, char *pathname)
 	full_path = malloc(sizeof(char) * 4096);
 	full_path[4095] = '\0';
 	if (!full_path)
+	{
+		perror("Fullpath error");
 		exit(EXIT_FAILURE);
+	}
 	for (i = 0; i < 4096 && dir[i] != '\0'; i++)
 	{
 		full_path[i] = dir[i];
@@ -79,10 +88,12 @@ char *_concatenate(char *dir, char *pathname)
 }
 
 /**
-* is_executable - check if file is executable
-* @full_path: path to check
+* is_executable - Check if file is executable
+* @full_path: Path to check
+*
 * Return: 1 (success) or 0 (otherwise)
 */
+
 int is_executable(char *full_path)
 {
 	struct stat sb;
@@ -91,6 +102,7 @@ int is_executable(char *full_path)
 	/* S_IXUSR - Macro to  */
 	return (stat(full_path, &sb) == 0 && sb.st_mode & S_IXUSR);
 }
+
 
 /**
 * find_ext_file - Find external command file

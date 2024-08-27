@@ -1,23 +1,6 @@
 #include "shell.h"
 
 /**
- * change_directory - Changes directory
- * @path: Directory path
- *
- * Return - Void
- */
-
-void change_directory(const char *path)
-{
-	if (chdir(path) == 0)
-		;
-	else
-	{
-		perror("cd");
-	}
-}
-
-/**
  * cd_args - Handles cd built-in command arguments
  * @args: Pointer to cd command arguments
  * @envp: Pointer to environment variables
@@ -32,7 +15,7 @@ int cd_args(char **args, char **envp)
 	int size;
 
 	(void)envp;
-	if (_strcmp(args[1], "-") == 0)
+	if (strcmp(args[1], "-") == 0)
 	{
 		size = oldpwd_path_size(envp);
 		path = get_oldpwd_path(envp, size);
