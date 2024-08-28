@@ -14,12 +14,14 @@
 
 #define TOKEN_ARRAY_SIZE 20
 #define DELIM " \t\n"
+#define MAX_LINE 1024
+#define MAX_COMMANDS 100
 
 void display_prompt(void);
 char *get_input(char *lineptr, size_t len);
 char **string_tok(char *str, char *delim);
 int exec_builtin(char *args[], char **envp);
-void exec_external(char *pathname, char *args[], char *envp[], int cmd_count);
+int exec_external(char *pathname, char *args[], char *envp[], int cmd_count);
 char *get_env_path(char **envp, int size);
 int _path_size(char **envp);
 char *find_command(char *pathname, char **envp);
@@ -37,6 +39,7 @@ void exit_function(char *args[]);
 int set_oldpwd(void);
 int set_pwd(void);
 int cd_exec(char *args[], char **envp);
+void command_tok(char *str, char *commands[], char *operators[MAX_COMMANDS], int *command_count, int *operator_count);
 
 /* str_utils.c */
 int _strlen(char *str);
@@ -45,7 +48,7 @@ int _strncmp(char *str1, char *str2, int n);
 char *_concat(char *var, char *val);
 int _strcon(char *str, char c);
 
-/* exec_utils */
+/* utils */
 char *get_env_path(char **envp, int size);
 int _path_size(char **envp);
 char *find_command(char *pathname, char **envp);

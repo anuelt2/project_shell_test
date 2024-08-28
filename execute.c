@@ -2,7 +2,7 @@
 
 /**
  * exec_builtin - Executes built-in commands
- * @args: Array of commandline arguments
+ * @args: Array of command-line arguments
  * @envp: Pointer to environment variables
  *
  * Return: Void
@@ -12,12 +12,27 @@ int exec_builtin(char *args[], char **envp)
 {
 	if (args[0] != NULL)
 	{
-		if (strcmp(args[0], "exit") == 0)
+		if (_strcmp(args[0], "exit") == 0)
 			exit_function(args);
-		if (strcmp(args[0], "cd") == 0)
+		if (_strcmp(args[0], "cd") == 0)
 		{
 			cd_exec(args, envp);
 			return (1);
+		}
+		if (_strcmp(args[0], "env") == 0)
+		{
+			get_env();
+			return (0);
+		}
+		else if (_strcmp(args[0], "setenv") == 0)
+		{
+			set_env(args[1], args[2], 1);
+			return (0);
+		}
+		else if (_strcmp(args[0], "unsetenv") == 0)
+		{
+			unset_env(args[1]);
+			return (0);
 		}
 	}
 	return (0);
@@ -33,7 +48,7 @@ int exec_builtin(char *args[], char **envp)
  * Return: Void
  */
 
-void exec_external(char *pathname, char *args[], char *envp[], int cmd_count)
+int exec_external(char *pathname, char *args[], char *envp[], int cmd_count)
 {
 	pid_t child_pid;
 	int status;
@@ -59,6 +74,8 @@ void exec_external(char *pathname, char *args[], char *envp[], int cmd_count)
 		else
 		{
 			wait(&status);
+			return (WEXITSTATUS(status));
 		}
 	}
+	return (1);
 }

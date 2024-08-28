@@ -54,28 +54,3 @@ char **copy_environ(void)
 	}
 	return (environ_copy);
 }
-
-/**
-* env_func_caller - set which env to call
-* @args: arrays of args
-* Return: 0 - success, 1 - failure
-*/
-int env_func_caller(char **args)
-{
-	if (_strcmp(args[0], "env") == 0)
-	{
-		get_env();
-		return (0);
-	}
-	else if (_strcmp(args[0], "setenv") == 0)
-	{
-		set_env(args[1], args[2], 1);
-		return (0);
-	}
-	else if (_strcmp(args[0], "unsetenv") == 0)
-	{
-		unset_env(args[1]);
-		return (0);
-	}
-	return (1);
-}
